@@ -21,7 +21,10 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 
 @Composable
-fun MainNavScreen(navController: NavHostController) {
+fun MainNavScreen(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     val navigationBarItems = remember {
         listOf(
             BottomNavItemInfo(Route.Search, R.drawable.search_icon, "Поиск"),
@@ -34,7 +37,7 @@ fun MainNavScreen(navController: NavHostController) {
         currentDestination?.route == screen.route::class.qualifiedName
     }
 
-    Column {
+    Column(modifier = modifier) {
         Box(modifier = Modifier.weight(1f)) { AppNavigationGraph(navController) }
         if (bottomBarDestination) {
             Divider()
