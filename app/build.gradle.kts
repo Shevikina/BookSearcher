@@ -1,8 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    kotlin("plugin.serialization") version "2.1.0"
+    // для kotlin 2.0.0
     alias(libs.plugins.compose.compiler)
+    // для навигации
+    kotlin("plugin.serialization") version "2.1.0"
+
+    // Настройка плагинов для Hilt
+    alias(libs.plugins.hiltAndroid)
+    id("kotlin-kapt")
 }
 
 android {
@@ -69,6 +75,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //Hilt
+    implementation(libs.hilt)
+    implementation(libs.hiltNavigationCompose)
+    kapt(libs.hiltCompiler)
+
     // Navigation
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation.compose)
@@ -86,4 +97,8 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+}
+
+kapt {
+    correctErrorTypes = true
 }

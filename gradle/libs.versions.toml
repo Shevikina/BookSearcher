@@ -7,12 +7,14 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2023.08.00"
-navigationCompose = "2.8.3"
+composeBom = "2025.03.00"
+navigationCompose = "2.8.8"
 kotlinxSerializationJson = "1.8.0"
 retrofit2Version = "2.11.0"
 okhttp3Version = "4.9.3"
 coroutinesVersion = "1.10.1"
+hiltVersion = "2.51.1"
+hiltNavigationComposeVersion = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,9 +50,15 @@ okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor"
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
 
+#Hilt
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
+hiltNavigationCompose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationComposeVersion" }
+hiltCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+#Hilt
+hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }

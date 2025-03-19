@@ -2,12 +2,13 @@ package dev.shevikina.surfspringschool.presentation.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -23,7 +24,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 @Composable
 fun MainNavScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val navigationBarItems = remember {
         listOf(
@@ -40,7 +42,7 @@ fun MainNavScreen(
     Column(modifier = modifier) {
         Box(modifier = Modifier.weight(1f)) { AppNavigationGraph(navController) }
         if (bottomBarDestination) {
-            Divider()
+            HorizontalDivider()
             NavBar(
                 navItemsInfo = navigationBarItems,
                 currentDestination = currentDestination,
