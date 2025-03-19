@@ -51,10 +51,6 @@ android {
     }
 }
 
-//composeCompiler {
-//    reportsDestination = layout.buildDirectory.dir("compose_compiler")
-//}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -73,8 +69,21 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Navigation
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.runtime.ktx)
+
+    // Retrofit
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.gson)
+
+    // OkHttp
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging)
+
+    // Coroutines
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 }
