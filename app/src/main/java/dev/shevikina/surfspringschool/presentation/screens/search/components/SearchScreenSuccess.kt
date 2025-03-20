@@ -1,13 +1,16 @@
 package dev.shevikina.surfspringschool.presentation.screens.search.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
@@ -16,11 +19,14 @@ fun MainScreenSuccess(
     books: List<BookModel>,
     modifier: Modifier = Modifier
 ) {
-    //ЗАГЛУШКА
-    Column(modifier = modifier.verticalScroll(rememberScrollState(0))) {
-        books.forEach { info ->
-            Text("${info.id}\n${info.title}\n${info.authors}\n${info.description}\n${info.imageUrl}")
-            HorizontalDivider()
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalItemSpacing = 32.62.dp,
+        modifier = modifier
+    ) {
+        items(books) { info ->
+            BookCard(info = info, Modifier.height(290.dp))
         }
     }
 }
@@ -29,12 +35,14 @@ fun MainScreenSuccess(
 @Composable
 private fun MainScreenSuccessPreview() {
     SurfSpringSchoolTheme {
-        MainScreenSuccess(
-            listOf(
-                BookModel("1", "22", "33", "44", "55"),
-                BookModel("1", "22", "33", "44", "55"),
-                BookModel("1", "22", "33", "44", "55"),
+        Box(Modifier.padding(20.dp)) {
+            MainScreenSuccess(
+                listOf(
+                    BookModel("1", "22", "33", "44", "55"),
+                    BookModel("1", "22", "33", "44", "55"),
+                    BookModel("1", "22", "33", "44", "55"),
+                )
             )
-        )
+        }
     }
 }

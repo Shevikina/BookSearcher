@@ -8,7 +8,7 @@ class BookResponseToBookModelMapper @Inject constructor() : (BookResponse) -> Bo
     override operator fun invoke(from: BookResponse): BookModel =
         BookModel(
             id = from.volumeInfo?.id ?: "",
-            authors = from.volumeInfo?.authors?.getOrNull(0) ?: "Unknown",
+            author = from.volumeInfo?.authors?.getOrNull(0) ?: "Unknown",
             title = from.volumeInfo?.title ?: "Untitled",
             imageUrl = from.volumeInfo?.imageLinks?.thumbnail ?: "",
             description = from.volumeInfo?.description ?: ""

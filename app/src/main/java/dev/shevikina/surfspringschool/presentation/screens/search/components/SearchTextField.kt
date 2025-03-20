@@ -13,6 +13,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shevikina.surfspringschool.R
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun SearchTextField(
@@ -34,6 +36,13 @@ fun SearchTextField(
     onValueChanged: (value: String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(searchQuery.value) {
+        if (searchQuery.value.isNotEmpty()) {
+            delay(2000)
+            sendQuery(searchQuery.value)
+        }
+    }
 
     OutlinedTextField(
         value = searchQuery.value,
