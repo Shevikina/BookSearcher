@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -19,19 +21,39 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
 import dev.shevikina.surfspringschool.presentation.screens.search.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchTextField
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun SearchMainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
+fun SearchMainScreen(
+    snackbarHostState: SnackbarHostState,
+    mainViewModel: MainViewModel = hiltViewModel()
+) {
     val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
+    val markScope = rememberCoroutineScope()
 
     SearchScreen(
         queryState = state.value,
         sendQuery = { text -> mainViewModel::getAllSearchedBooks.invoke(text) },
-        onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() }
+        onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() },
+        onMarkChanged = { isMark ->
+            markScope.launch {
+                if (isMark)
+                    snackbarHostState.showSnackbar(
+                        message = FavoriteState.GOOD_ADDED.toString(),
+                        withDismissAction = true
+                    )
+                else
+                    snackbarHostState.showSnackbar(
+                        message = FavoriteState.GOOD_REMOVE.toString(),
+                        withDismissAction = true
+                    )
+            }
+        }
     )
 }
 
@@ -39,7 +61,8 @@ fun SearchMainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
 private fun SearchScreen(
     queryState: SearchScreenState,
     sendQuery: (value: String) -> Unit,
-    onValueChanged: (value: String) -> Unit
+    onValueChanged: (value: String) -> Unit,
+    onMarkChanged: (marked: Boolean) -> Unit
 ) {
     val errorMessage = queryState.errorMessage
     val searchQuery = remember { mutableStateOf("") }
@@ -103,7 +126,8 @@ private fun SearchScreen(
 
                 else -> {
                     MainScreenSuccess(
-                        queryState.bookList
+                        queryState.bookList,
+                        onMarkChanged = onMarkChanged
                     )
                 }
             }
@@ -129,7 +153,8 @@ private fun SearchScreenPreview() {
         SearchScreen(
             queryState = SearchScreenState(),
             onValueChanged = {},
-            sendQuery = {}
+            sendQuery = {},
+            onMarkChanged = {}
         )
     }
 }

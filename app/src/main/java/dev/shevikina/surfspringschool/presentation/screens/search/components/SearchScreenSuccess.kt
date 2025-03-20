@@ -17,7 +17,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 @Composable
 fun MainScreenSuccess(
     books: List<BookModel>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMarkChanged: (marked: Boolean) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -26,7 +27,11 @@ fun MainScreenSuccess(
         modifier = modifier
     ) {
         items(books) { info ->
-            BookCard(info = info, Modifier.height(290.dp))
+            BookCard(
+                info = info,
+                modifier = Modifier.height(290.dp),
+                onMarkChanged = onMarkChanged
+            )
         }
     }
 }
@@ -42,7 +47,7 @@ private fun MainScreenSuccessPreview() {
                     BookModel("1", "22", "33", "44", "55"),
                     BookModel("1", "22", "33", "44", "55"),
                 )
-            )
+            ) {}
         }
     }
 }

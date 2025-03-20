@@ -1,6 +1,7 @@
 package dev.shevikina.surfspringschool.presentation.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,6 +12,7 @@ import dev.shevikina.surfspringschool.presentation.screens.search.SearchMainScre
 @Composable
 fun AppNavigationGraph(
     navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -19,7 +21,7 @@ fun AppNavigationGraph(
         modifier = modifier.fillMaxSize()
     ) {
         composable<Route.Search> {
-            SearchMainScreen()
+            SearchMainScreen(snackbarHostState)
         }
         composable<Route.Favorites> {
             //TODO: Создание основного окна с открытой вкладкой избранного

@@ -39,7 +39,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 @Composable
 fun BookCard(
     info: BookModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onMarkChanged: (marked: Boolean) -> Unit
 ) {
     Box(modifier = modifier) {
         Column(modifier = modifier) {
@@ -83,7 +84,10 @@ fun BookCard(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.background, CircleShape)
                     .clip(CircleShape)
-                    .clickable { marked.value = !marked.value }
+                    .clickable {
+                        marked.value = !marked.value
+                        onMarkChanged(marked.value)
+                    }
                     .size(24.dp)
                     .padding(horizontal = 4.dp, vertical = 3.97.dp)
             )
@@ -104,6 +108,6 @@ private fun BookCardPreview() {
                 imageUrl = "https://books.google.com/books/content?id=y1MGAwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
             ),
             modifier = Modifier.size(154.dp, 289.38.dp)
-        )
+        ) {}
     }
 }
