@@ -18,7 +18,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 fun MainScreenSuccess(
     books: List<BookModel>,
     modifier: Modifier = Modifier,
-    onMarkChanged: (marked: Boolean) -> Unit
+    onMarkChanged: (marked: Boolean) -> Unit,
+    onCardClicked: (info: BookModel) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -30,7 +31,8 @@ fun MainScreenSuccess(
             BookCard(
                 info = info,
                 modifier = Modifier.height(290.dp),
-                onMarkChanged = onMarkChanged
+                onMarkChanged = onMarkChanged,
+                onCardClicked = onCardClicked
             )
         }
     }
@@ -43,11 +45,13 @@ private fun MainScreenSuccessPreview() {
         Box(Modifier.padding(20.dp)) {
             MainScreenSuccess(
                 listOf(
-                    BookModel("1", "22", "33", "44", "55"),
-                    BookModel("1", "22", "33", "44", "55"),
-                    BookModel("1", "22", "33", "44", "55"),
-                )
-            ) {}
+                    BookModel("1", "22", "33", "44", "55", ""),
+                    BookModel("1", "22", "33", "44", "55", ""),
+                    BookModel("1", "22", "33", "44", "55", ""),
+                ),
+                onMarkChanged = { },
+                onCardClicked = { }
+            )
         }
     }
 }

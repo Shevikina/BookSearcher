@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
 import dev.shevikina.surfspringschool.presentation.screens.search.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchMainScreen(
     snackbarHostState: SnackbarHostState,
+    onCardClicked: (info:BookModel)->Unit,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
@@ -38,6 +40,7 @@ fun SearchMainScreen(
 
     SearchScreen(
         queryState = state.value,
+        onCardClicked = onCardClicked,
         sendQuery = { text -> mainViewModel::getAllSearchedBooks.invoke(text) },
         onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() },
         onMarkChanged = { isMark ->
@@ -62,7 +65,8 @@ private fun SearchScreen(
     queryState: SearchScreenState,
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
-    onMarkChanged: (marked: Boolean) -> Unit
+    onMarkChanged: (marked: Boolean) -> Unit,
+    onCardClicked: (info:BookModel)->Unit
 ) {
     val errorMessage = queryState.errorMessage
     val searchQuery = remember { mutableStateOf("") }
@@ -127,7 +131,8 @@ private fun SearchScreen(
                 else -> {
                     MainScreenSuccess(
                         queryState.bookList,
-                        onMarkChanged = onMarkChanged
+                        onMarkChanged = onMarkChanged,
+                        onCardClicked = onCardClicked
                     )
                 }
             }
@@ -154,7 +159,8 @@ private fun SearchScreenPreview() {
             queryState = SearchScreenState(),
             onValueChanged = {},
             sendQuery = {},
-            onMarkChanged = {}
+            onMarkChanged = {},
+            onCardClicked = {}
         )
     }
 }

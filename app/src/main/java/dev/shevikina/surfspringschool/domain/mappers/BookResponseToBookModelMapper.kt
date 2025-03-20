@@ -11,6 +11,7 @@ class BookResponseToBookModelMapper @Inject constructor() : (BookResponse) -> Bo
             author = from.volumeInfo?.authors?.getOrNull(0) ?: "Unknown",
             title = from.volumeInfo?.title ?: "Untitled",
             imageUrl = from.volumeInfo?.imageLinks?.thumbnail ?: "",
-            description = from.volumeInfo?.description ?: ""
+            description = from.volumeInfo?.description ?: "",
+            publishedDate = from.volumeInfo?.publishedDate ?: ""
         )
 }

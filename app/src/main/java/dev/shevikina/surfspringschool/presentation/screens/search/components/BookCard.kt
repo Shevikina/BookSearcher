@@ -1,6 +1,7 @@
 package dev.shevikina.surfspringschool.presentation.screens.search.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,7 +34,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 fun BookCard(
     info: BookModel,
     modifier: Modifier = Modifier,
-    onMarkChanged: (marked: Boolean) -> Unit
+    onMarkChanged: (marked: Boolean) -> Unit,
+    onCardClicked: (info: BookModel) -> Unit
 ) {
     Box(modifier = modifier) {
         Column(modifier = modifier) {
@@ -46,6 +48,7 @@ fun BookCard(
                     .fillMaxWidth()
                     .background(Color.Gray, RoundedCornerShape(16.dp))
                     .clip(RoundedCornerShape(16.dp))
+                    .clickable(onClick = { onCardClicked(info) })
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -83,9 +86,12 @@ private fun BookCardPreview() {
                 author = "А.Н. Алмазов",
                 description = "Опыт внешней истории. Исследование преимущественно по рукописям.",
                 id = "y1MGAwAAQBAJ",
-                imageUrl = "https://books.google.com/books/content?id=y1MGAwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+                imageUrl = "https://books.google.com/books/content?id=y1MGAwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+                publishedDate = ""
             ),
-            modifier = Modifier.size(154.dp, 289.38.dp)
-        ) {}
+            modifier = Modifier.size(154.dp, 289.38.dp),
+            onMarkChanged = {},
+            onCardClicked = {}
+        )
     }
 }

@@ -5,5 +5,6 @@ data class BookModel(
     val author: String,
     val title: String,
     val imageUrl: String,
-    val description: String
+    val description: String,
+    val publishedDate: String
 )
