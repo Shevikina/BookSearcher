@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shevikina.surfspringschool.domain.usecase.GetBooksByTitleUseCase
-import dev.shevikina.surfspringschool.presentation.screens.search.SearchScreenState
 import dev.shevikina.surfspringschool.presentation.utils.handle
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,12 +18,14 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchScreenState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        reload()
-    }
-
-    fun reload() {
-        getAllSearchedBooks("")
+    fun clear() {
+        _uiState.update { state ->
+            state.copy(
+                isLoading = true,
+                bookList = emptyList(),
+                errorMessage = null
+            )
+        }
     }
 
     fun getAllSearchedBooks(value: String) {

@@ -18,14 +18,14 @@ import dev.shevikina.surfspringschool.presentation.navigation.AppNavigationGraph
 import dev.shevikina.surfspringschool.presentation.navigation.Route
 import dev.shevikina.surfspringschool.presentation.screens.components.NavBar
 import dev.shevikina.surfspringschool.presentation.screens.data.BottomNavItemInfo
+import dev.shevikina.surfspringschool.presentation.screens.search.MainViewModel
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 
 @Composable
 fun MainNavScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel = hiltViewModel()
+    modifier: Modifier = Modifier
 ) {
     val navigationBarItems = remember {
         listOf(

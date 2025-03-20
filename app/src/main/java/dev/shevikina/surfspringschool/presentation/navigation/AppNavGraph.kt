@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.shevikina.surfspringschool.presentation.screens.search.SearchMainScreen
 
 @Composable
 fun AppNavigationGraph(
@@ -18,7 +19,7 @@ fun AppNavigationGraph(
         modifier = modifier.fillMaxSize()
     ) {
         composable<Route.Search> {
-            //TODO: Создание основного окна с открытой вкладкой поиска
+            SearchMainScreen()
         }
         composable<Route.Favorites> {
             //TODO: Создание основного окна с открытой вкладкой избранного
