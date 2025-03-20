@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.presentation.screens.components
+package dev.shevikina.surfspringschool.presentation.navigation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.shevikina.surfspringschool.R
 import dev.shevikina.surfspringschool.presentation.navigation.AppNavigationGraph
 import dev.shevikina.surfspringschool.presentation.navigation.Route
-import dev.shevikina.surfspringschool.presentation.screens.components.NavBar
+import dev.shevikina.surfspringschool.presentation.navigation.components.NavBar
 import dev.shevikina.surfspringschool.presentation.screens.data.BottomNavItemInfo
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
