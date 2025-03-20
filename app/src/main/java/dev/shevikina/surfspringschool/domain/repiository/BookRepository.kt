@@ -14,8 +14,8 @@ class BookRepository @Inject constructor(
 ) {
     suspend fun getBooksByTitle(title: String): OperationResult<List<BookModel>> =
         remoteDataSource.getBooksByTitle(title).flatMapIfSuccess { bookResponseList ->
-            bookResponseList.map { bookResponse ->
+            bookResponseList.items?.map { bookResponse ->
                 bookResponseToBookModelMapper(bookResponse)
-            }.toSuccessResult()
+            }?.toSuccessResult() ?: OperationResult.Error("Book list is empty")
         }
 }

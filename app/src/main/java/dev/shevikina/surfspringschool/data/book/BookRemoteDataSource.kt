@@ -7,6 +7,6 @@ import javax.inject.Inject
 class BookRemoteDataSource @Inject constructor(
     private val bookApi: BookApi
 ) : BaseRemoteDataSource() {
-    suspend fun getBooksByTitle(title: String = ""): OperationResult<List<BookResponse>> =
+    suspend fun getBooksByTitle(title: String = ""): OperationResult<BookResponseList> =
         safeApiCall { bookApi.getBooksByTitle(query = title) }
 }

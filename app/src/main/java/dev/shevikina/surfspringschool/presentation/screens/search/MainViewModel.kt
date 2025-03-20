@@ -1,9 +1,10 @@
-package dev.shevikina.surfspringschool.presentation.screens
+package dev.shevikina.surfspringschool.presentation.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shevikina.surfspringschool.domain.usecase.GetBooksByTitleUseCase
+import dev.shevikina.surfspringschool.presentation.screens.search.SearchScreenState
 import dev.shevikina.surfspringschool.presentation.utils.handle
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,10 +24,10 @@ class MainViewModel @Inject constructor(
     }
 
     fun reload() {
-        getAllSearchedBooks("Harry Pott")
+        getAllSearchedBooks("")
     }
 
-    private fun getAllSearchedBooks(value: String) {
+    fun getAllSearchedBooks(value: String) {
         _uiState.update { state ->
             state.copy(
                 isLoading = true

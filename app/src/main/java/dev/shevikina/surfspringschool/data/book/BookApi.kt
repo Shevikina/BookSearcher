@@ -9,5 +9,5 @@ interface BookApi {
     suspend fun getBooksByTitle(
         @Query("q") query: String,
         @Query("maxResults") maxResults: Int = 10
-    ): Response<List<BookResponse>>
+    ): Response<BookResponseList>
 }
