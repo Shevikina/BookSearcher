@@ -1,10 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+
     // для kotlin 2.0.0
     alias(libs.plugins.compose.compiler)
+
     // для навигации
     kotlin("plugin.serialization") version "2.1.0"
+
+    //для БД
+    alias(libs.plugins.google.devtools.ksp)
 
     // Настройка плагинов для Hilt
     alias(libs.plugins.hiltAndroid)
@@ -102,6 +107,11 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
     implementation(libs.coil.gif)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 kapt {
