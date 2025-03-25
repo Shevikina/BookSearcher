@@ -3,7 +3,8 @@ package dev.shevikina.surfspringschool.presentation.screens.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shevikina.surfspringschool.domain.usecase.GetBooksByTitleUseCase
+import dev.shevikina.surfspringschool.domain.db.use_case.BookUseCases
+import dev.shevikina.surfspringschool.domain.network.usecase.GetBooksByTitleUseCase
 import dev.shevikina.surfspringschool.presentation.utils.handle
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getBooksByTitleUseCase: GetBooksByTitleUseCase,
+    private val dbBookUseCases: BookUseCases
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchScreenState())
     val uiState = _uiState.asStateFlow()
