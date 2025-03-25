@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.domain.network.models
+package dev.shevikina.surfspringschool.domain.models
 
 data class BookModel(
     val id: String,

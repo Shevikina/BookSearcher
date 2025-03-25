@@ -1,6 +1,6 @@
 package dev.shevikina.surfspringschool.domain.db
 
-import dev.shevikina.surfspringschool.domain.db.model.BookEntity
+import dev.shevikina.surfspringschool.data.db.BookEntity
 import kotlinx.coroutines.flow.Flow
 
 interface BookDBRepository {

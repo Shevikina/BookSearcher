@@ -1,7 +1,7 @@
-package dev.shevikina.surfspringschool.domain.network.mappers
+package dev.shevikina.surfspringschool.domain.network.mapper
 
 import dev.shevikina.surfspringschool.data.network.book.BookResponse
-import dev.shevikina.surfspringschool.domain.network.models.BookModel
+import dev.shevikina.surfspringschool.domain.models.BookModel
 import javax.inject.Inject
 
 class BookResponseToBookModelMapper @Inject constructor() : (BookResponse) -> BookModel {

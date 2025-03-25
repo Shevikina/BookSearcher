@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import coil.compose.AsyncImage
-import dev.shevikina.surfspringschool.domain.network.models.BookModel
+import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.components.FavoriteIcon
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 

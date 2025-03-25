@@ -2,8 +2,8 @@ package dev.shevikina.surfspringschool.domain.network.repiository
 
 import dev.shevikina.surfspringschool.data.network.book.BookRemoteDataSource
 import dev.shevikina.surfspringschool.data.network.utils.OperationResult
-import dev.shevikina.surfspringschool.domain.network.mappers.BookResponseToBookModelMapper
-import dev.shevikina.surfspringschool.domain.network.models.BookModel
+import dev.shevikina.surfspringschool.domain.network.mapper.BookResponseToBookModelMapper
+import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.domain.network.utils.flatMapIfSuccess
 import dev.shevikina.surfspringschool.domain.network.utils.toSuccessResult
 import javax.inject.Inject

@@ -2,7 +2,6 @@ package dev.shevikina.surfspringschool.data.db
 
 import dev.shevikina.surfspringschool.data.db.dao.BookDao
 import dev.shevikina.surfspringschool.domain.db.BookDBRepository
-import dev.shevikina.surfspringschool.domain.db.model.BookEntity
 import kotlinx.coroutines.flow.Flow
 
 class BookDBRepositoryImpl(private val dao: BookDao) : BookDBRepository {

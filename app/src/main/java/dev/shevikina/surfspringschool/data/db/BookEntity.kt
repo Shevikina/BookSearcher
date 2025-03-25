@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.domain.db.model
+package dev.shevikina.surfspringschool.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

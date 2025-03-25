@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.shevikina.surfspringschool.domain.network.models.BookModel
+import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
 import dev.shevikina.surfspringschool.presentation.screens.search.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
