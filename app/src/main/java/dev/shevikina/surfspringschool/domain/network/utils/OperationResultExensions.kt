@@ -1,6 +1,6 @@
-package dev.shevikina.surfspringschool.domain.utils
+package dev.shevikina.surfspringschool.domain.network.utils
 
-import dev.shevikina.surfspringschool.data.utils.OperationResult
+import dev.shevikina.surfspringschool.data.network.utils.OperationResult
 
 fun <In, Out> OperationResult<In>.flatMapIfSuccess(
     block: (In) -> OperationResult<Out>

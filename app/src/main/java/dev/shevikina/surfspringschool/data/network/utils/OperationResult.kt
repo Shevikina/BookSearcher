@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.data.utils
+package dev.shevikina.surfspringschool.data.network.utils
 
 sealed interface OperationResult<out T> {
     class Success<T>(val data: T) : OperationResult<T>

@@ -1,6 +1,6 @@
 package dev.shevikina.surfspringschool.presentation.utils
 
-import dev.shevikina.surfspringschool.data.utils.OperationResult
+import dev.shevikina.surfspringschool.data.network.utils.OperationResult
 
 suspend fun <T> OperationResult<T>.handle(
     onSuccess: (data: T) -> Unit,

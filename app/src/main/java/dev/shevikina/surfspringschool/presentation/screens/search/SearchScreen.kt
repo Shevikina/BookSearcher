@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.shevikina.surfspringschool.domain.models.BookModel
+import dev.shevikina.surfspringschool.domain.network.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
 import dev.shevikina.surfspringschool.presentation.screens.search.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchMainScreen(
     snackbarHostState: SnackbarHostState,
-    onCardClicked: (info:BookModel)->Unit,
+    onCardClicked: (info: BookModel)->Unit,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
@@ -66,7 +66,7 @@ private fun SearchScreen(
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
     onMarkChanged: (marked: Boolean) -> Unit,
-    onCardClicked: (info:BookModel)->Unit
+    onCardClicked: (info: BookModel)->Unit
 ) {
     val errorMessage = queryState.errorMessage
     val searchQuery = remember { mutableStateOf("") }

@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.data.di
+package dev.shevikina.surfspringschool.data.network.di
 
 import dagger.Module
 import dagger.Provides

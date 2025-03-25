@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import dev.shevikina.surfspringschool.domain.models.BookModel
+import dev.shevikina.surfspringschool.domain.network.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.description.DescriptionScreen
 import dev.shevikina.surfspringschool.presentation.screens.search.SearchMainScreen
 

@@ -1,11 +1,11 @@
-package dev.shevikina.surfspringschool.domain.repiository
+package dev.shevikina.surfspringschool.domain.network.repiository
 
-import dev.shevikina.surfspringschool.data.book.BookRemoteDataSource
-import dev.shevikina.surfspringschool.data.utils.OperationResult
-import dev.shevikina.surfspringschool.domain.mappers.BookResponseToBookModelMapper
-import dev.shevikina.surfspringschool.domain.models.BookModel
-import dev.shevikina.surfspringschool.domain.utils.flatMapIfSuccess
-import dev.shevikina.surfspringschool.domain.utils.toSuccessResult
+import dev.shevikina.surfspringschool.data.network.book.BookRemoteDataSource
+import dev.shevikina.surfspringschool.data.network.utils.OperationResult
+import dev.shevikina.surfspringschool.domain.network.mappers.BookResponseToBookModelMapper
+import dev.shevikina.surfspringschool.domain.network.models.BookModel
+import dev.shevikina.surfspringschool.domain.network.utils.flatMapIfSuccess
+import dev.shevikina.surfspringschool.domain.network.utils.toSuccessResult
 import javax.inject.Inject
 
 class BookRepository @Inject constructor(

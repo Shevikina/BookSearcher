@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.data.book
+package dev.shevikina.surfspringschool.data.network.book
 
 import retrofit2.Response
 import retrofit2.http.GET

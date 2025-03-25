@@ -1,7 +1,7 @@
-package dev.shevikina.surfspringschool.data.book
+package dev.shevikina.surfspringschool.data.network.book
 
-import dev.shevikina.surfspringschool.data.utils.BaseRemoteDataSource
-import dev.shevikina.surfspringschool.data.utils.OperationResult
+import dev.shevikina.surfspringschool.data.network.utils.BaseRemoteDataSource
+import dev.shevikina.surfspringschool.data.network.utils.OperationResult
 import javax.inject.Inject
 
 class BookRemoteDataSource @Inject constructor(

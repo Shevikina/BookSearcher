@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.data.utils
+package dev.shevikina.surfspringschool.data.network.utils
 
 import retrofit2.Response
 

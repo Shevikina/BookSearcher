@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shevikina.surfspringschool.domain.models.BookModel
+import dev.shevikina.surfspringschool.domain.network.models.BookModel
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 @Composable

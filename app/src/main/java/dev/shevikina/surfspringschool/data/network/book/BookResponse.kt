@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.data.book
+package dev.shevikina.surfspringschool.data.network.book
 
 import com.google.gson.annotations.SerializedName
 
