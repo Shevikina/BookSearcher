@@ -8,3 +8,5 @@ data class BookModel(
     val description: String,
     val publishedDate: String
 )
+
+class InvalidBookModelException(message: String) : Exception(message)
