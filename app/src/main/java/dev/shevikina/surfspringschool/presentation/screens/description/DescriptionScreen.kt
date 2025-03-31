@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import dev.shevikina.surfspringschool.domain.models.BookModel
-import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenAppBar
+import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenTopBar
 import dev.shevikina.surfspringschool.presentation.screens.MainViewModel
 import dev.shevikina.surfspringschool.presentation.screens.ScreenState
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
@@ -55,7 +55,7 @@ fun DescriptionScreen(
             .verticalScroll(rememberScrollState(0)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        DescriptionScreenAppBar(
+        DescriptionScreenTopBar(
             modifier = Modifier.height(48.dp),
             onBackClicked = onBackClicked,
             isFavorite = runBlocking {

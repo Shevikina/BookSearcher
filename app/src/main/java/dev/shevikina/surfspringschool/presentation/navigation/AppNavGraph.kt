@@ -10,12 +10,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.description.DescriptionScreen
+import dev.shevikina.surfspringschool.presentation.screens.favorite.FavoriteMainScreen
 import dev.shevikina.surfspringschool.presentation.screens.search.SearchMainScreen
 
 @Composable
 fun AppNavigationGraph(
     navController: NavHostController,
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -25,7 +26,7 @@ fun AppNavigationGraph(
     ) {
         composable<Route.Search> {
             SearchMainScreen(
-                snackbarHostState = snackbarHostState,
+                snackBarHostState = snackBarHostState,
                 onCardClicked = { info ->
                     navController.navigate(
                         Route.Details(
@@ -41,7 +42,22 @@ fun AppNavigationGraph(
             )
         }
         composable<Route.Favorites> {
-            //TODO: Создание основного окна с открытой вкладкой избранного
+            FavoriteMainScreen(
+                snackBarHostState = snackBarHostState,
+                onBackClicked = { navController.popBackStack() },
+                onCardClicked = { info ->
+                    navController.navigate(
+                        Route.Details(
+                            info.id,
+                            info.author,
+                            info.title,
+                            info.imageUrl,
+                            info.description,
+                            info.publishedDate
+                        )
+                    )
+                }
+            )
         }
         composable<Route.Details> { backStackEntry ->
             val page = backStackEntry.toRoute<Route.Details>()

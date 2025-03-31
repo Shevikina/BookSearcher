@@ -19,7 +19,7 @@ import dev.shevikina.surfspringschool.presentation.screens.components.FavoriteIc
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 @Composable
-fun DescriptionScreenAppBar(
+fun DescriptionScreenTopBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean = false,
     onMarkChanged: (marked: Boolean, isSuccessCallback: (Boolean) -> Unit) -> Unit,
@@ -51,10 +51,10 @@ fun DescriptionScreenAppBar(
 @Composable
 private fun DescriptionScreenAppBarPreview() {
     SurfSpringSchoolTheme {
-        DescriptionScreenAppBar(
+        DescriptionScreenTopBar(
             modifier = Modifier,
             isFavorite = false,
-            onMarkChanged = {_, _-> },
+            onMarkChanged = { _, _ -> },
             onBackClicked = {}
         )
     }
