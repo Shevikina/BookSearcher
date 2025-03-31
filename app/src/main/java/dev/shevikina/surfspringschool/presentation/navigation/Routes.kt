@@ -12,6 +12,7 @@ sealed class Route {
 
     @Serializable
     data class Details(
+        val id: String,
         val author: String,
         val title: String,
         val imageUrl: String,

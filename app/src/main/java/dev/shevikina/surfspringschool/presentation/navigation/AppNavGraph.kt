@@ -29,6 +29,7 @@ fun AppNavigationGraph(
                 onCardClicked = { info ->
                     navController.navigate(
                         Route.Details(
+                            info.id,
                             info.author,
                             info.title,
                             info.imageUrl,
@@ -46,7 +47,7 @@ fun AppNavigationGraph(
             val page = backStackEntry.toRoute<Route.Details>()
             DescriptionScreen(
                 BookModel(
-                    "",
+                    page.id,
                     page.author,
                     page.title,
                     page.imageUrl,
