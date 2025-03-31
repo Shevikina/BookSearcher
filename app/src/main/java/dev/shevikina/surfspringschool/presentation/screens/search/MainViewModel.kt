@@ -40,9 +40,18 @@ class MainViewModel @Inject constructor(
     fun clear() {
         _uiState.update { state ->
             state.copy(
+                searchValue = "",
                 isLoading = true,
                 bookList = emptyList(),
                 errorMessage = null
+            )
+        }
+    }
+
+    fun updateSearch(text: String) {
+        _uiState.update { state ->
+            state.copy(
+                searchValue = text
             )
         }
     }

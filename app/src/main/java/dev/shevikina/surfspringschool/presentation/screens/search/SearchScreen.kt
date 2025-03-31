@@ -12,8 +12,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -45,8 +43,12 @@ fun SearchMainScreen(
     SearchScreen(
         queryState = state.value,
         onCardClicked = onCardClicked,
+        searchQuery = state.value.searchValue,
         sendQuery = { text -> mainViewModel::getAllSearchedBooks.invoke(text) },
-        onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() },
+        onValueChanged = { text ->
+            if (text.isEmpty()) mainViewModel::clear.invoke()
+            else mainViewModel::updateSearch.invoke(text)
+        },
         isFavoriteBook = { book ->
             runBlocking {
                 CoroutineScope(Dispatchers.IO).async {
@@ -89,6 +91,7 @@ fun SearchMainScreen(
 @Composable
 private fun SearchScreen(
     queryState: SearchScreenState,
+    searchQuery: String,
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
     isFavoriteBook: (info: BookModel) -> Boolean,
@@ -96,7 +99,6 @@ private fun SearchScreen(
     onCardClicked: (info: BookModel) -> Unit
 ) {
     val errorMessage = queryState.errorMessage
-    val searchQuery = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -111,7 +113,7 @@ private fun SearchScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
-        if (searchQuery.value.isEmpty()) {
+        if (searchQuery.isEmpty()) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
@@ -150,7 +152,7 @@ private fun SearchScreen(
                         }
 
                         else -> {
-                            SearchScreenRetry { sendQuery(searchQuery.value) }
+                            SearchScreenRetry { sendQuery(searchQuery) }
                         }
                     }
                 }
@@ -185,6 +187,7 @@ private fun SearchScreenPreview() {
     SurfSpringSchoolTheme {
         SearchScreen(
             queryState = SearchScreenState(),
+            searchQuery = "",
             onValueChanged = {},
             sendQuery = {},
             isFavoriteBook = { _ -> false },
