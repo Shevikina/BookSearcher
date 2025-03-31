@@ -1,8 +1,8 @@
-package dev.shevikina.surfspringschool.presentation.screens.search
+package dev.shevikina.surfspringschool.presentation.screens
 
 import dev.shevikina.surfspringschool.domain.models.BookModel
 
-data class SearchScreenState(
+data class ScreenState(
     val searchValue: String = "",
     val bookList: List<BookModel> = emptyList(),
     val favoriteBookList: List<BookModel> = emptyList(),

@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shevikina.surfspringschool.presentation.screens.MainNavScreen
 import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
-import dev.shevikina.surfspringschool.presentation.screens.search.components.FavoriteSnackbars
+import dev.shevikina.surfspringschool.presentation.screens.components.FavoriteSnackbars
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 

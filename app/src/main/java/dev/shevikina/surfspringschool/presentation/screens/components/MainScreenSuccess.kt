@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.presentation.screens.search.components
+package dev.shevikina.surfspringschool.presentation.screens.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

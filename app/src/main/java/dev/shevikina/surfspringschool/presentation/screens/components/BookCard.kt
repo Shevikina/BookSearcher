@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.presentation.screens.search.components
+package dev.shevikina.surfspringschool.presentation.screens.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import coil.compose.AsyncImage
 import dev.shevikina.surfspringschool.domain.models.BookModel
-import dev.shevikina.surfspringschool.presentation.screens.components.FavoriteIcon
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 
 @Composable

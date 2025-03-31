@@ -1,4 +1,4 @@
-package dev.shevikina.surfspringschool.presentation.screens.search
+package dev.shevikina.surfspringschool.presentation.screens
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     private val dbBookUseCases: BookUseCases
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SearchScreenState())
+    private val _uiState = MutableStateFlow(ScreenState())
     val uiState = _uiState.asStateFlow()
 
     init {

@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shevikina.surfspringschool.domain.models.BookModel
+import dev.shevikina.surfspringschool.presentation.screens.MainViewModel
+import dev.shevikina.surfspringschool.presentation.screens.ScreenState
+import dev.shevikina.surfspringschool.presentation.screens.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.data.FavoriteState
-import dev.shevikina.surfspringschool.presentation.screens.search.components.MainScreenSuccess
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchTextField
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
@@ -34,11 +36,11 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun SearchMainScreen(
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     onCardClicked: (info: BookModel) -> Unit,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
-    val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
+    val state: State<ScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
 
     SearchScreen(
         queryState = state.value,
@@ -63,7 +65,7 @@ fun SearchMainScreen(
                         mainViewModel::addFavoriteBook.invoke(book)
                         withContext(Dispatchers.Default) {
                             callback(state.value.favoriteBookList.contains(book) == isMark)
-                            snackbarHostState.showSnackbar(
+                            snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.GOOD_ADDED.toString()
                                 else FavoriteState.BAD_ADDED.toString(),
                                 withDismissAction = true
@@ -73,7 +75,7 @@ fun SearchMainScreen(
                         mainViewModel::removeFavoriteBook.invoke(book)
                         withContext(Dispatchers.Default) {
                             callback(state.value.favoriteBookList.contains(book) == isMark)
-                            snackbarHostState.showSnackbar(
+                            snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
                                 else FavoriteState.GOOD_REMOVE.toString(),
                                 withDismissAction = true
@@ -90,7 +92,7 @@ fun SearchMainScreen(
 
 @Composable
 private fun SearchScreen(
-    queryState: SearchScreenState,
+    queryState: ScreenState,
     searchQuery: String,
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
@@ -159,7 +161,7 @@ private fun SearchScreen(
 
                 else -> {
                     MainScreenSuccess(
-                        queryState.bookList,
+                        books = queryState.bookList,
                         isFavoriteBook = isFavoriteBook,
                         onMarkChanged = onMarkChanged,
                         onCardClicked = onCardClicked
@@ -186,7 +188,7 @@ private fun NotFoundText() {
 private fun SearchScreenPreview() {
     SurfSpringSchoolTheme {
         SearchScreen(
-            queryState = SearchScreenState(),
+            queryState = ScreenState(),
             searchQuery = "",
             onValueChanged = {},
             sendQuery = {},

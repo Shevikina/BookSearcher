@@ -31,8 +31,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenAppBar
-import dev.shevikina.surfspringschool.presentation.screens.search.MainViewModel
-import dev.shevikina.surfspringschool.presentation.screens.search.SearchScreenState
+import dev.shevikina.surfspringschool.presentation.screens.MainViewModel
+import dev.shevikina.surfspringschool.presentation.screens.ScreenState
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +47,7 @@ fun DescriptionScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     onBackClicked: () -> Unit,
 ) {
-    val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
+    val state: State<ScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
