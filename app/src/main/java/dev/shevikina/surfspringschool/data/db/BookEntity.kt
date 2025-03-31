@@ -3,7 +3,7 @@ package dev.shevikina.surfspringschool.data.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "favorite_books")
+@Entity(tableName = "books")
 data class BookEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,

@@ -6,7 +6,7 @@ import dev.shevikina.surfspringschool.data.db.dao.BookDao
 
 @Database(
     entities = [BookEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class BooksDatabase : RoomDatabase() {
