@@ -14,6 +14,6 @@ class BookDBRepositoryImpl(private val dao: BookDao) : BookDBRepository {
     override suspend fun insertFavoriteBook(book: BookEntity) =
         dao.insert(book)
 
-    override suspend fun deleteFavoriteBook(book: BookEntity) =
-        dao.delete(book)
+    override suspend fun deleteFavoriteBook(networkId: String) =
+        dao.deleteBook(networkId)
 }

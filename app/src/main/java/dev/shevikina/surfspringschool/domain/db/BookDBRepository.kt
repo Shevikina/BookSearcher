@@ -11,5 +11,5 @@ interface BookDBRepository {
 
     suspend fun insertFavoriteBook(book: BookEntity)
 
-    suspend fun deleteFavoriteBook(book: BookEntity)
+    suspend fun deleteFavoriteBook(networkId: String)
 }

@@ -1,7 +1,6 @@
 package dev.shevikina.surfspringschool.data.db.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import dev.shevikina.surfspringschool.data.db.BookEntity
@@ -13,8 +12,8 @@ interface BookDao {
     @Insert
     suspend fun insert(book: BookEntity)
 
-    @Delete
-    suspend fun delete(book: BookEntity)
+    @Query("DELETE FROM books WHERE networkId = :networkId")
+    fun deleteBook(networkId: String)
 
     @Query("SELECT * from books WHERE networkId = :networkId")
     fun getBook(networkId: String): Flow<BookEntity?>

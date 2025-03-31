@@ -1,5 +1,6 @@
 package dev.shevikina.surfspringschool.presentation.screens.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -83,20 +84,23 @@ class MainViewModel @Inject constructor(
 
     suspend fun addFavoriteBook(book: BookModel) {
         try {
-            dbBookUseCases.addBookUseCase.invoke(book)
-            updateStateFavoriteBooksList()
-
+            if (getFavoriteBook(book.id) == null) {
+                dbBookUseCases.addBookUseCase.invoke(book)
+                updateStateFavoriteBooksList()
+            }
         } catch (e: Exception) {
-            onError(e.message ?: "Unspecified error")
+            Log.e("DB", e.message ?: "Unspecified error")
         }
     }
 
     suspend fun removeFavoriteBook(book: BookModel) {
         try {
-            dbBookUseCases.deleteBookUseCase.invoke(book)
-            updateStateFavoriteBooksList()
+            if (getFavoriteBook(book.id) != null) {
+                dbBookUseCases.deleteBookUseCase.invoke(book.id)
+                updateStateFavoriteBooksList()
+            }
         } catch (e: Exception) {
-            onError(e.message ?: "Unspecified error")
+            Log.e("DB", e.message ?: "Unspecified error")
         }
     }
 
