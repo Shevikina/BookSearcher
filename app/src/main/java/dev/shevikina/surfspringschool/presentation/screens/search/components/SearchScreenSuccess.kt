@@ -19,7 +19,7 @@ fun MainScreenSuccess(
     books: List<BookModel>,
     modifier: Modifier = Modifier,
     isFavoriteBook: (info: BookModel) -> Boolean,
-    onMarkChanged: (marked: Boolean, book: BookModel) -> Boolean,
+    onMarkChanged: (marked: Boolean, book: BookModel, isSuccessCallback: (Boolean) -> Unit) -> Unit,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
@@ -52,7 +52,7 @@ private fun MainScreenSuccessPreview() {
                     BookModel("1", "22", "33", "44", "55", ""),
                 ),
                 isFavoriteBook = { false },
-                onMarkChanged = { _, _ -> true },
+                onMarkChanged = { _, _, _ ->  },
                 onCardClicked = { }
             )
         }

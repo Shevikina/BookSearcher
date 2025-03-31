@@ -54,12 +54,13 @@ fun SearchMainScreen(
                 }.await()
             }
         },
-        onMarkChanged = { isMark, book ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
+        onMarkChanged = { isMark, book, callback ->
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
                     if (isMark) {
                         mainViewModel::addFavoriteBook.invoke(book)
-                        withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Default) {
+                            callback(state.value.favoriteBookList.contains(book) == isMark)
                             snackbarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.GOOD_ADDED.toString()
                                 else FavoriteState.BAD_ADDED.toString(),
@@ -68,7 +69,8 @@ fun SearchMainScreen(
                         }
                     } else {
                         mainViewModel::removeFavoriteBook.invoke(book)
-                        withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Default) {
+                            callback(state.value.favoriteBookList.contains(book) == isMark)
                             snackbarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
                                 else FavoriteState.GOOD_REMOVE.toString(),
@@ -76,11 +78,10 @@ fun SearchMainScreen(
                             )
                         }
                     }
-                } catch (e: Throwable) {
-                    Log.e("DB", e.message ?: "unknown error")
                 }
+            } catch (e: Throwable) {
+                Log.e("DB", e.message ?: "unknown error")
             }
-            true// TODO: придумать как дождаться завершения добавления/удаления, чтобы вернуть state.value.favoriteBookList.contains(book) == isMark
         }
     )
 }
@@ -91,7 +92,7 @@ private fun SearchScreen(
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
     isFavoriteBook: (info: BookModel) -> Boolean,
-    onMarkChanged: (marked: Boolean, book: BookModel) -> Boolean,
+    onMarkChanged: (marked: Boolean, book: BookModel, isSuccessCallback: (Boolean) -> Unit) -> Unit,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     val errorMessage = queryState.errorMessage
@@ -187,7 +188,7 @@ private fun SearchScreenPreview() {
             onValueChanged = {},
             sendQuery = {},
             isFavoriteBook = { _ -> false },
-            onMarkChanged = { _, _ -> true },
+            onMarkChanged = { _, _, _ -> },
             onCardClicked = {}
         )
     }

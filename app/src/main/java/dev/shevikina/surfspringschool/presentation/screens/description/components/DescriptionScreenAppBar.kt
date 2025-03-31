@@ -22,7 +22,7 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 fun DescriptionScreenAppBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean = false,
-    onMarkChanged: (marked: Boolean) -> Boolean,
+    onMarkChanged: (marked: Boolean, isSuccessCallback: (Boolean) -> Unit) -> Unit,
     onBackClicked: () -> Unit
 ) {
     Row(
@@ -54,7 +54,7 @@ private fun DescriptionScreenAppBarPreview() {
         DescriptionScreenAppBar(
             modifier = Modifier,
             isFavorite = false,
-            onMarkChanged = { true },
+            onMarkChanged = {_, _-> },
             onBackClicked = {}
         )
     }

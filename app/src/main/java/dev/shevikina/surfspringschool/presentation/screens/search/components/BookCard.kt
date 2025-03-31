@@ -35,7 +35,7 @@ fun BookCard(
     info: BookModel,
     modifier: Modifier = Modifier,
     isFavoriteBook: (info: BookModel) -> Boolean,
-    onMarkChanged: (marked: Boolean, book: BookModel) -> Boolean,
+    onMarkChanged: (marked: Boolean, book: BookModel, isSuccessCallback: (Boolean) -> Unit) -> Unit,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     Box(modifier = modifier) {
@@ -76,8 +76,8 @@ fun BookCard(
         ) {
             FavoriteIcon(
                 isFavorite = isFavoriteBook(info),
-                onMarkChanged = { marked ->
-                    onMarkChanged(marked, info)
+                onMarkChanged = { marked, callback ->
+                    onMarkChanged(marked, info, callback)
                 }
             )
         }
@@ -99,7 +99,7 @@ private fun BookCardPreview() {
             ),
             modifier = Modifier.size(154.dp, 289.38.dp),
             isFavoriteBook = { false },
-            onMarkChanged = { _, _ -> true },
+            onMarkChanged = { _, _, _ -> },
             onCardClicked = {}
         )
     }

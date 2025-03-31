@@ -1,6 +1,5 @@
 package dev.shevikina.surfspringschool.presentation.screens.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,7 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 @Composable
 fun FavoriteIcon(
     isFavorite: Boolean = false,
-    onMarkChanged: (marked: Boolean) -> Boolean
+    onMarkChanged: (marked: Boolean, isSuccessCallback: (Boolean) -> Unit) -> Unit
 ) {
     var marked by remember { mutableStateOf(isFavorite) }
     Icon(
@@ -39,10 +38,10 @@ fun FavoriteIcon(
             .background(MaterialTheme.colorScheme.background, CircleShape)
             .clip(CircleShape)
             .clickable {
-                val isSuccessChange = onMarkChanged(!marked)
-                Log.d("MyLog", "\tisSuccessChange $isSuccessChange")
-//                if (isSuccessChange) //TODO: исправить onMarkChanged и раскоментить
-                marked = !marked
+                onMarkChanged(!marked) { isSuccess ->
+                    if (isSuccess)
+                        marked = !marked
+                }
             }
             .size(24.dp)
             .padding(horizontal = 4.dp, vertical = 3.97.dp)
@@ -55,7 +54,7 @@ private fun FavIcPreview() {
     SurfSpringSchoolTheme {
         FavoriteIcon(
             isFavorite = false,
-            onMarkChanged = { _ -> true }
+            onMarkChanged = { _, _ -> }
         )
     }
 }

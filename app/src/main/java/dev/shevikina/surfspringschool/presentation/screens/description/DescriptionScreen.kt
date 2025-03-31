@@ -39,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 @Composable
 fun DescriptionScreen(
@@ -62,18 +63,21 @@ fun DescriptionScreen(
                     mainViewModel::getFavoriteBook.invoke(info.id) != null
                 }.await()
             },
-            onMarkChanged = { isMark ->
+            onMarkChanged = { isMark, callback ->
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         if (isMark)
                             mainViewModel::addFavoriteBook.invoke(info)
                         else
                             mainViewModel::removeFavoriteBook.invoke(info)
+
+                        withContext(Dispatchers.Default) {
+                            callback(state.value.favoriteBookList.contains(info) == isMark)
+                        }
                     } catch (e: Throwable) {
                         Log.e("DB", e.message ?: "unknown error")
                     }
                 }
-                state.value.favoriteBookList.contains(info) == isMark
             }
         )
         Spacer(modifier = Modifier.height(12.dp))
