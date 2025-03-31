@@ -1,5 +1,6 @@
 package dev.shevikina.surfspringschool.presentation.screens.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -27,34 +27,49 @@ import dev.shevikina.surfspringschool.presentation.screens.search.components.Mai
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchScreenRetry
 import dev.shevikina.surfspringschool.presentation.screens.search.components.SearchTextField
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SearchMainScreen(
     snackbarHostState: SnackbarHostState,
-    onCardClicked: (info: BookModel)->Unit,
+    onCardClicked: (info: BookModel) -> Unit,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
     val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
-    val markScope = rememberCoroutineScope()
 
     SearchScreen(
         queryState = state.value,
         onCardClicked = onCardClicked,
         sendQuery = { text -> mainViewModel::getAllSearchedBooks.invoke(text) },
         onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() },
-        onMarkChanged = { isMark ->
-            markScope.launch {
-                if (isMark)
-                    snackbarHostState.showSnackbar(
-                        message = FavoriteState.GOOD_ADDED.toString(),
-                        withDismissAction = true
-                    )
-                else
-                    snackbarHostState.showSnackbar(
-                        message = FavoriteState.GOOD_REMOVE.toString(),
-                        withDismissAction = true
-                    )
+        onMarkChanged = { isMark, book ->
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    if (isMark) {
+                        mainViewModel::addFavoriteBook.invoke(book)
+                        withContext(Dispatchers.Main) {
+                            snackbarHostState.showSnackbar(
+                                message = if (state.value.favoriteBookList.contains(book)) FavoriteState.GOOD_ADDED.toString()
+                                else FavoriteState.BAD_ADDED.toString(),
+                                withDismissAction = true
+                            )
+                        }
+                    } else {
+                        mainViewModel::removeFavoriteBook.invoke(book)
+                        withContext(Dispatchers.Main) {
+                            snackbarHostState.showSnackbar(
+                                message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
+                                else FavoriteState.GOOD_REMOVE.toString(),
+                                withDismissAction = true
+                            )
+                        }
+                    }
+                } catch (e: Throwable) {
+                    Log.e("DB", e.message ?: "unknown error")
+                }
             }
         }
     )
@@ -65,8 +80,8 @@ private fun SearchScreen(
     queryState: SearchScreenState,
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
-    onMarkChanged: (marked: Boolean) -> Unit,
-    onCardClicked: (info: BookModel)->Unit
+    onMarkChanged: (marked: Boolean, book: BookModel) -> Unit,
+    onCardClicked: (info: BookModel) -> Unit
 ) {
     val errorMessage = queryState.errorMessage
     val searchQuery = remember { mutableStateOf("") }
@@ -159,7 +174,7 @@ private fun SearchScreenPreview() {
             queryState = SearchScreenState(),
             onValueChanged = {},
             sendQuery = {},
-            onMarkChanged = {},
+            onMarkChanged = { _, _ -> },
             onCardClicked = {}
         )
     }

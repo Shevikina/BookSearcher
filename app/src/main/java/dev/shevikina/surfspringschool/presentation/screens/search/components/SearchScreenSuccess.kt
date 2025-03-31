@@ -18,7 +18,7 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 fun MainScreenSuccess(
     books: List<BookModel>,
     modifier: Modifier = Modifier,
-    onMarkChanged: (marked: Boolean) -> Unit,
+    onMarkChanged: (marked: Boolean, book: BookModel) -> Unit,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
@@ -49,7 +49,7 @@ private fun MainScreenSuccessPreview() {
                     BookModel("1", "22", "33", "44", "55", ""),
                     BookModel("1", "22", "33", "44", "55", ""),
                 ),
-                onMarkChanged = { },
+                onMarkChanged = { _, _ -> },
                 onCardClicked = { }
             )
         }

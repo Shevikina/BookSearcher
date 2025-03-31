@@ -27,7 +27,8 @@ object DatabaseModule {
             app,
             BooksDatabase::class.java,
             BooksDatabase.DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     @Singleton

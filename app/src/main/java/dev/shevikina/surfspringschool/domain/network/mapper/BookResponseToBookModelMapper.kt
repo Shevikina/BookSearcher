@@ -7,7 +7,7 @@ import javax.inject.Inject
 class BookResponseToBookModelMapper @Inject constructor() : (BookResponse) -> BookModel {
     override operator fun invoke(from: BookResponse): BookModel =
         BookModel(
-            id = from.volumeInfo?.id ?: "",
+            id = from.id ?: "",
             author = from.volumeInfo?.authors?.getOrNull(0) ?: "Unknown",
             title = from.volumeInfo?.title ?: "Untitled",
             imageUrl = from.volumeInfo?.imageLinks?.thumbnail ?: "",
