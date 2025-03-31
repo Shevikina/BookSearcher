@@ -34,7 +34,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 fun BookCard(
     info: BookModel,
     modifier: Modifier = Modifier,
-    onMarkChanged: (marked: Boolean, book: BookModel) -> Unit,
+    isFavoriteBook: (info: BookModel) -> Boolean,
+    onMarkChanged: (marked: Boolean, book: BookModel) -> Boolean,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     Box(modifier = modifier) {
@@ -72,7 +73,14 @@ fun BookCard(
                 .fillMaxWidth()
                 .padding(top = 6.55.dp, end = 9.dp),
             contentAlignment = Alignment.TopEnd
-        ) { FavoriteIcon(onMarkChanged = {marked ->  onMarkChanged(marked, info)}) }
+        ) {
+            FavoriteIcon(
+                isFavorite = isFavoriteBook(info),
+                onMarkChanged = { marked ->
+                    onMarkChanged(marked, info)
+                }
+            )
+        }
     }
 }
 
@@ -90,7 +98,8 @@ private fun BookCardPreview() {
                 publishedDate = ""
             ),
             modifier = Modifier.size(154.dp, 289.38.dp),
-            onMarkChanged = {_, _->},
+            isFavoriteBook = { false },
+            onMarkChanged = { _, _ -> true },
             onCardClicked = {}
         )
     }

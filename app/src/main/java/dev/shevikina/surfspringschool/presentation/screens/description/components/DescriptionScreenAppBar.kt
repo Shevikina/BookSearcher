@@ -21,6 +21,8 @@ import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 @Composable
 fun DescriptionScreenAppBar(
     modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
+    onMarkChanged: (marked: Boolean) -> Boolean,
     onBackClicked: () -> Unit
 ) {
     Row(
@@ -38,7 +40,10 @@ fun DescriptionScreenAppBar(
                 .clickable(onClick = onBackClicked)
         )
         Spacer(modifier = Modifier.weight(1f))
-        FavoriteIcon() {}
+        FavoriteIcon(
+            isFavorite = isFavorite,
+            onMarkChanged = onMarkChanged
+        )
     }
 }
 
@@ -48,6 +53,8 @@ private fun DescriptionScreenAppBarPreview() {
     SurfSpringSchoolTheme {
         DescriptionScreenAppBar(
             modifier = Modifier,
+            isFavorite = false,
+            onMarkChanged = { true },
             onBackClicked = {}
         )
     }

@@ -1,5 +1,6 @@
 package dev.shevikina.surfspringschool.presentation.screens.description
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,23 +26,56 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import dev.shevikina.surfspringschool.domain.models.BookModel
 import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenAppBar
+import dev.shevikina.surfspringschool.presentation.screens.search.MainViewModel
+import dev.shevikina.surfspringschool.presentation.screens.search.SearchScreenState
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun DescriptionScreen(
     info: BookModel,
+    mainViewModel: MainViewModel = hiltViewModel(),
     onBackClicked: () -> Unit,
 ) {
+    val state: State<SearchScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState(0)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        DescriptionScreenAppBar(onBackClicked = onBackClicked, modifier = Modifier.height(48.dp))
+        DescriptionScreenAppBar(
+            modifier = Modifier.height(48.dp),
+            onBackClicked = onBackClicked,
+            isFavorite = runBlocking {
+                CoroutineScope(Dispatchers.IO).async {
+                    mainViewModel::getFavoriteBook.invoke(info.id) != null
+                }.await()
+            },
+            onMarkChanged = { isMark ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        if (isMark)
+                            mainViewModel::addFavoriteBook.invoke(info)
+                        else
+                            mainViewModel::removeFavoriteBook.invoke(info)
+                    } catch (e: Throwable) {
+                        Log.e("DB", e.message ?: "unknown error")
+                    }
+                }
+                state.value.favoriteBookList.contains(info) == isMark
+            }
+        )
         Spacer(modifier = Modifier.height(12.dp))
         AsyncImage(
             model = info.imageUrl,

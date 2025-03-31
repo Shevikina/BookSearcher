@@ -29,7 +29,9 @@ import dev.shevikina.surfspringschool.presentation.screens.search.components.Sea
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 @Composable
@@ -45,6 +47,13 @@ fun SearchMainScreen(
         onCardClicked = onCardClicked,
         sendQuery = { text -> mainViewModel::getAllSearchedBooks.invoke(text) },
         onValueChanged = { text -> if (text.isEmpty()) mainViewModel::clear.invoke() },
+        isFavoriteBook = { book ->
+            runBlocking {
+                CoroutineScope(Dispatchers.IO).async {
+                    mainViewModel::getFavoriteBook.invoke(book.id) != null
+                }.await()
+            }
+        },
         onMarkChanged = { isMark, book ->
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -71,6 +80,7 @@ fun SearchMainScreen(
                     Log.e("DB", e.message ?: "unknown error")
                 }
             }
+            true// TODO: придумать как дождаться завершения добавления/удаления, чтобы вернуть state.value.favoriteBookList.contains(book) == isMark
         }
     )
 }
@@ -80,7 +90,8 @@ private fun SearchScreen(
     queryState: SearchScreenState,
     sendQuery: (value: String) -> Unit,
     onValueChanged: (value: String) -> Unit,
-    onMarkChanged: (marked: Boolean, book: BookModel) -> Unit,
+    isFavoriteBook: (info: BookModel) -> Boolean,
+    onMarkChanged: (marked: Boolean, book: BookModel) -> Boolean,
     onCardClicked: (info: BookModel) -> Unit
 ) {
     val errorMessage = queryState.errorMessage
@@ -146,6 +157,7 @@ private fun SearchScreen(
                 else -> {
                     MainScreenSuccess(
                         queryState.bookList,
+                        isFavoriteBook = isFavoriteBook,
                         onMarkChanged = onMarkChanged,
                         onCardClicked = onCardClicked
                     )
@@ -174,7 +186,8 @@ private fun SearchScreenPreview() {
             queryState = SearchScreenState(),
             onValueChanged = {},
             sendQuery = {},
-            onMarkChanged = { _, _ -> },
+            isFavoriteBook = { _ -> false },
+            onMarkChanged = { _, _ -> true },
             onCardClicked = {}
         )
     }
