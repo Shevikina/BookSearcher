@@ -1,6 +1,7 @@
 package dev.shevikina.surfspringschool.presentation.screens.favorite
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,9 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,19 +41,45 @@ fun FavoriteMainScreen(
     onBackClicked: () -> Unit,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
+    val screenContext = LocalContext.current
     val state: State<ScreenState> = mainViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = state.value.favoriteBookList) {
+        CoroutineScope(Dispatchers.IO).launch {
+            mainViewModel::updateStateFavoriteBooksList.invoke()
+        }
+    }
 
     FavoriteScreen(
         queryState = state.value,
         onCardClicked = onCardClicked,
         onBackClicked = onBackClicked,
+        onTitleClicked = {
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    mainViewModel::updateStateFavoriteBooksList.invoke()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            screenContext,
+                            "Список избранных книг обновлен",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+            } catch (e: Throwable) {
+                Log.e("DB", e.message ?: "unknown error")
+            }
+        },
         onMarkChanged = { isMark, book, callback ->
             try {
                 if (!isMark) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        mainViewModel::removeFavoriteBook.invoke(book)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        withContext(Dispatchers.IO) {
+                            mainViewModel::removeFavoriteBook.invoke(book)
+                        }
                         withContext(Dispatchers.Default) {
-                            callback(state.value.favoriteBookList.contains(book) == isMark)
+                            callback(!state.value.favoriteBookList.contains(book))
                             snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
                                 else FavoriteState.GOOD_REMOVE.toString(),
@@ -71,6 +100,7 @@ private fun FavoriteScreen(
     queryState: ScreenState,
     onCardClicked: (info: BookModel) -> Unit,
     onBackClicked: () -> Unit,
+    onTitleClicked: () -> Unit,
     onMarkChanged: (marked: Boolean, book: BookModel, isSuccessCallback: (Boolean) -> Unit) -> Unit
 ) {
     Column(
@@ -78,9 +108,7 @@ private fun FavoriteScreen(
             .fillMaxSize()
     ) {
         FavoriteScreenTopBar(
-            onTitleClicked = {
-                // TODO: добавить обновление списка избранных.
-            },
+            onTitleClicked = onTitleClicked,
             onBackClicked = onBackClicked,
             modifier = Modifier.height(48.dp)
         )
@@ -92,7 +120,6 @@ private fun FavoriteScreen(
                 .padding(horizontal = 20.dp)
         ) {
             if (queryState.favoriteBookList.isEmpty()) {
-
                 Text(
                     text = "Нет ни одной избранной книги",
                     style = MaterialTheme.typography.bodyLarge,
@@ -102,6 +129,7 @@ private fun FavoriteScreen(
                 )
             } else {
                 MainScreenSuccess(
+                    modifier = Modifier.fillMaxSize(),
                     books = queryState.favoriteBookList,
                     isFavoriteBook = { true },
                     onMarkChanged = onMarkChanged,
@@ -121,6 +149,7 @@ private fun FavoriteScreenPreview() {
             queryState = ScreenState(),
             onCardClicked = {},
             onBackClicked = {},
+            onTitleClicked = {},
             onMarkChanged = { _, _, _ -> }
         )
     }

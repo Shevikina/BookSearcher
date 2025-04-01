@@ -30,9 +30,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import dev.shevikina.surfspringschool.domain.models.BookModel
-import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenTopBar
 import dev.shevikina.surfspringschool.presentation.screens.MainViewModel
 import dev.shevikina.surfspringschool.presentation.screens.ScreenState
+import dev.shevikina.surfspringschool.presentation.screens.description.components.DescriptionScreenTopBar
 import dev.shevikina.surfspringschool.ui.theme.SurfSpringSchoolTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,13 +64,14 @@ fun DescriptionScreen(
                 }.await()
             },
             onMarkChanged = { isMark, callback ->
-                CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        if (isMark)
-                            mainViewModel::addFavoriteBook.invoke(info)
-                        else
-                            mainViewModel::removeFavoriteBook.invoke(info)
-
+                        withContext(Dispatchers.IO) {
+                            if (isMark)
+                                mainViewModel::addFavoriteBook.invoke(info)
+                            else
+                                mainViewModel::removeFavoriteBook.invoke(info)
+                        }
                         withContext(Dispatchers.Default) {
                             callback(state.value.favoriteBookList.contains(info) == isMark)
                         }

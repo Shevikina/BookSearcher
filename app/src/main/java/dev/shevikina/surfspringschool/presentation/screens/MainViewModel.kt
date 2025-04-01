@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateStateFavoriteBooksList() {
+    suspend fun updateStateFavoriteBooksList() {
         _uiState.update { state ->
             state.copy(
                 favoriteBookList = dbBookUseCases.getBooksUseCase.invoke().first()
