@@ -71,15 +71,12 @@ fun FavoriteMainScreen(
                 Log.e("DB", e.message ?: "unknown error")
             }
         },
-        onMarkChanged = { isMark, book, callback ->
+        onMarkChanged = { isMark, book, _ ->
             try {
                 if (!isMark) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        withContext(Dispatchers.IO) {
-                            mainViewModel::removeFavoriteBook.invoke(book)
-                        }
+                        withContext(Dispatchers.IO) { mainViewModel::removeFavoriteBook.invoke(book) }
                         withContext(Dispatchers.Default) {
-                            callback(!state.value.favoriteBookList.contains(book))
                             snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
                                 else FavoriteState.GOOD_REMOVE.toString(),

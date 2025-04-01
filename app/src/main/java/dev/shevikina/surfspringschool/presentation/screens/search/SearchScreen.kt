@@ -60,11 +60,13 @@ fun SearchMainScreen(
         },
         onMarkChanged = { isMark, book, callback ->
             try {
-                CoroutineScope(Dispatchers.IO).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     if (isMark) {
-                        mainViewModel::addFavoriteBook.invoke(book)
+                        withContext(Dispatchers.IO) {
+                            mainViewModel::addFavoriteBook.invoke(book)
+                        }
                         withContext(Dispatchers.Default) {
-                            callback(state.value.favoriteBookList.contains(book) == isMark)
+                            callback(state.value.favoriteBookList.contains(book))
                             snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.GOOD_ADDED.toString()
                                 else FavoriteState.BAD_ADDED.toString(),
@@ -72,9 +74,11 @@ fun SearchMainScreen(
                             )
                         }
                     } else {
-                        mainViewModel::removeFavoriteBook.invoke(book)
+                        withContext(Dispatchers.IO) {
+                            mainViewModel::removeFavoriteBook.invoke(book)
+                        }
                         withContext(Dispatchers.Default) {
-                            callback(state.value.favoriteBookList.contains(book) == isMark)
+                            callback(!state.value.favoriteBookList.contains(book))
                             snackBarHostState.showSnackbar(
                                 message = if (state.value.favoriteBookList.contains(book)) FavoriteState.BAD_REMOVE.toString()
                                 else FavoriteState.GOOD_REMOVE.toString(),
